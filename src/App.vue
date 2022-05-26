@@ -16,6 +16,8 @@ import TheWelcome from "./components/TheWelcome.vue";
     <PrimeraSeccion />
   </div>
 
+
+
   <!-- <header>
     <img
       alt="Vue logo"

@@ -3,100 +3,116 @@
     <!-- Selector del filtrado -->
     <div class="selector">
       <div class="form-check form-check--center-content pad">
-        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
-          style="margin-right: 5px" />
-        <label class="form-check-label" for="flexRadioDefault1"> Todos </label>
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked=""
+          style="margin-right: 5px; cursor: pointer;" @click="filtrar()" />
+        <label class="form-check-label" for="flexRadioDefault1" style="cursor: pointer;"> Todos </label>
       </div>
       <div class="form-check form-check--center-content pad">
-        <input class="form-check-input mar" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked=""
-          style="margin-right: 5px" />
-        <label class="form-check form-check-label pad" for="flexRadioDefault2">
+        <input class="form-check-input mar" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+          style="margin-right: 5px; cursor: pointer;" @click="filtrar()" />
+        <label class="form-check form-check-label pad" for="flexRadioDefault2" style="cursor: pointer;">
           Hombre
         </label>
       </div>
       <div class="form-check form-check--center-content pad">
         <input class="form-check-input mar" type="radio" name="flexRadioDefault" id="flexRadioDefault3"
-          style="margin-right: 5px" />
-        <label class="form-check-label" for="flexRadioDefault3"> Mujer </label>
+          style="margin-right: 5px; cursor: pointer;" @click="filtrar()" />
+        <label class="form-check-label" for="flexRadioDefault3" style="cursor: pointer;"> Mujer </label>
       </div>
     </div>
 
     <!-- boton de filtrado -->
-    <div class="container-fluid caja_de_filtrar center-content">
+    <!-- <div class="container-fluid caja_de_filtrar center-content">
       <button type="button" class="btn btn-primary" @click="filtrar()">
         Filtrar
       </button>
-    </div>
+    </div> -->
     <!-- Cards con los zapatos -->
-    <div class="cardboard" id="cards"></div>
+    <div class="cardboard" id="cards">
+      <CardCard v-for="card in cards" :card="card" :totalprice="totalPrice" class="container-fluid "
+        @totalprice-change="upd"></CardCard>
+    </div>
 
     <!-- Boton de compra -->
-
     <div class="boton_compra">
       <button type="button" class="btn btn-success">
-        <h2 id="precio_total">Comprar (${{ totalprice }})</h2>
+        <h2 id="precio_total" @click="comprafinal(7)">Comprar (${{ totalPrice }})</h2>
       </button>
     </div>
   </div>
 </template>
 
 <script>
+import CardCard from "./CardCard.vue";
+
 export default {
   name: "PrimeraSeccion",
+
   data() {
     return {
-      sexos: [0, 1, 1, 1, 0, 0, 0],
-      names: [
-        "Zapato 1",
-        "Zapato 2",
-        "Zapato 3",
-        "Zapato 4",
-        "Zapato 5",
-        "Zapato 6",
-        "Zapato 7",
+      totalPrice: 0,
+
+      cards: [
+        {
+          id: 1,
+          sexo: "woman",
+          name: "Zapato 1",
+          price: 52,
+          texto: "Estos zapatos son la ostia, te encantarán te lo aseguro, compra ya, no lo pienses más. Vamos !!! 1",
+        },
+        {
+          id: 2,
+          sexo: "man",
+          name: "Zapato 2",
+          price: 107,
+          texto: "Estos zapatos son la ostia, te encantarán te lo aseguro, compra ya, no lo pienses más. Vamos !!! 2",
+        },
+        {
+          id: 3,
+          sexo: "man",
+          name: "Zapato 3",
+          price: 44,
+          texto: "Estos zapatos son la ostia, te encantarán te lo aseguro, compra ya, no lo pienses más. Vamos !!! 3",
+        },
+        {
+          id: 4,
+          sexo: "man",
+          name: "Zapato 4",
+          price: 7,
+          texto: "Estos zapatos son la ostia, te encantarán te lo aseguro, compra ya, no lo pienses más. Vamos !!! 4",
+        },
+        {
+          id: 5,
+          sexo: "woman",
+          name: "Zapato 5",
+          price: 123,
+          texto: "Estos zapatos son la ostia, te encantarán te lo aseguro, compra ya, no lo pienses más. Vamos !!! 5",
+        },
+        {
+          id: 6,
+          sexo: "woman",
+          name: "Zapato 6",
+          price: 556,
+          texto: "Estos zapatos son la ostia, te encantarán te lo aseguro, compra ya, no lo pienses más. Vamos !!! 6",
+        },
+        {
+          id: 7,
+          sexo: "woman",
+          name: "Zapato 7",
+          price: 10,
+          texto: "Estos zapatos son la ostia, te encantarán te lo aseguro, compra ya, no lo pienses más. Vamos !!! 7",
+        },
       ],
-      textos: [
-        "Estos zapatos son la ostia, te encantarán te lo aseguro, compra ya, no lo pienses más. Vamos !!! 1",
-        "Estos zapatos son la ostia, te encantarán te lo aseguro, compra ya, no lo pienses más. Vamos !!! 2",
-        "Estos zapatos son la ostia, te encantarán te lo aseguro, compra ya, no lo pienses más. Vamos !!! 3",
-        "Estos zapatos son la ostia, te encantarán te lo aseguro, compra ya, no lo pienses más. Vamos !!! 4",
-        "Estos zapatos son la ostia, te encantarán te lo aseguro, compra ya, no lo pienses más. Vamos !!! 5",
-        "Estos zapatos son la ostia, te encantarán te lo aseguro, compra ya, no lo pienses más. Vamos !!! 6",
-        "Estos zapatos son la ostia, te encantarán te lo aseguro, compra ya, no lo pienses más. Vamos !!! 7",
-      ],
-      prices: [52, 107, 44.99, 7, 123, 556, 10],
-      totalprice: 0
-    }
+    };
   },
 
   mounted() {
-    this.crear_cards(7);
   },
 
   methods: {
-    crear_cards: function (cant) {
-      var s = document.getElementById("cards");
-      for (var i = 1; i <= cant; i++) {
-        var sexo;
-        if (this.sexos[i - 1]) sexo = "man";
-        else sexo = "woman";
-        s.innerHTML += ` <div class="container-fluid card ${sexo}" id="card${i}">
-                    <img src="src/assets/img/shoes/z${i}.jpg" class="container-fluid card-img-top" />
-                    <div class="container-fluid card-body">
-                        <div>
-                        <h5 class="card-title"> ${this.names[i - 1]} </h5>
-                        <h5 class="price">  $${this.prices[i - 1]} <h5> 
-                        </div>
-                        <p class="card-text"> ${this.textos[i - 1]} </p>
-                    <div class="container-fluid botones">
-                        <a href="ver_foto.html" class="btn btn-primary" onclick="ver(${i})">Ver</a>
-                        <a class="btn btn-primary" id="buy_btn_${i}" @click="(compra(${i}))">Comprar</a>
-                        <a class="btn btn-primary" id="cancel_btn_${i}" style='display: none;' onclick= "(cancelar(${i}))">
-                        Cancelar</a>
-                    </div>
-                    </div>
-                  </div> `;
-      }
+
+    upd: function (delta) {
+      this.totalPrice += delta;
     },
 
     solotodos: function (cant) {
@@ -106,14 +122,14 @@ export default {
 
     soloman: function (cant) {
       for (var i = 1; i <= cant; i++)
-        if (this.sexos[i - 1])
+        if (this.cards[i - 1].sexo == 'man')
           document.getElementById(`card${i}`).style.display = "grid";
         else document.getElementById(`card${i}`).style.display = "none";
     },
 
     solowoman: function (cant) {
       for (var i = 1; i <= cant; i++)
-        if (!this.sexos[i - 1])
+        if (this.cards[i - 1].sexo == 'woman')
           document.getElementById(`card${i}`).style.display = "grid";
         else document.getElementById(`card${i}`).style.display = "none";
     },
@@ -130,16 +146,27 @@ export default {
       if (ch3.checked) this.solowoman(7);
     },
 
-    compra: function (num) {
-      alert(3);
-      document.getElementById(`card${num}`).style.backgroundColor = "lightgreen";
-      document.getElementById(`buy_btn_${num}`).style.display = "none";
-      document.getElementById(`cancel_btn_${num}`).style.display = "block";
-      totalprice += this.prices[num - 1];
-    }
-  }
-};
+    comprafinal: function (cant) {
+      alert(`Gracias por su compra !!!`);
+      for (var i = 1; i <= cant; i++) {
+        if (document.getElementById(`buy_btn_${i}`).style.display == "none") {
+          if (this.cards[i - 1].sexo == 'man')
+            document.getElementById(`card${i}`).style.backgroundColor = "#c18c5d";
+          else document.getElementById(`card${i}`).style.backgroundColor = "#e7ad99";
 
+          document.getElementById(`buy_btn_${i}`).style.display = "block";
+          document.getElementById(`cancel_btn_${i}`).style.display = "none";
+          this.totalPrice -= this.cards[i - 1].price;
+        }
+
+      }
+    }
+  },
+
+  components: {
+    CardCard,
+  },
+};
 </script>
 
 <style scoped>
